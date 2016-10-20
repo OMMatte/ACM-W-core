@@ -3,7 +3,7 @@ describe("Dummy test", function () {
         expect(true).toBe(true);
     });
     it("Dummy fail", function () {
-        expect({a: "dummy"}).toEqual({a: "dumm"});
+        expect({a: "dummy"}).toEqual({a: "dummy"});
     });
 });
 
