@@ -1,1 +1,3 @@
-// Here are the rules/logic for the game
+// The functions here handle the rules/logic for the game
+
+export {}
