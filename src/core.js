@@ -30,7 +30,7 @@ function getNextPlayerPieceXPosition(state, {initX,y, color, mapper}) {
 }
 
 function makeMove(state, {x,y}) {
-	if(!isValidMove(state,{x,y, state.playerInTurn})) throw "The requested move is not valid.";
+	if(!isValidMove(state,{x,y, color: state.playerInTurn})) throw "The requested move is not valid.";
 	gamestate.setPiece(state, {x,y, color: state.playerInTurn});
 
 	gamestate.setPiece(state, {x,y,state.playerInTurn});
