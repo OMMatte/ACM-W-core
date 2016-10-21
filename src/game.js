@@ -2,11 +2,12 @@
 
 export default function Game(state) {
 	return 
-	{state,
+	{
+		/*state,
 	makeMove: ,
 	validMoves: ,
 	isValidMove: ,
-	score: ,
+	score: ,*/
 
 	};
 }

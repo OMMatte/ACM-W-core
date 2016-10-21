@@ -5,20 +5,22 @@ function charToColor(c) {
 	if(c === '.') return null;
 	if(c === 'b') return 'black';
 	if(c==='w') return 'white';
-	throw "Failed to map char to piece.";
+	throw new Error("Failed to map char to piece.");
 }
 
-function createPiece({color}) {
+function createPiece(color) {
 	return {color: color};
 }
 
-function createBoard({board}) {
+function createBoard(board = "") {
+	if(!board) return [];
 	var rows = board.split(' ');
 	return rows.map(function(row) {
 		var arr = [];
-		for(var i = 0; i < row.length(); i++) {
-			arr[i] = createPiece({charToColor(row.charAt(i))});
+		for(var i = 0; i < row.length; i++) {
+			arr[i] = createPiece(charToColor(row.charAt(i)));
 		}
+		return arr;
 	});
 }
 
@@ -35,13 +37,13 @@ function getPiece(state, {x,y}) {
 }
 
 export { 
-	charToColor
+	charToColor,
 
-	createPiece
-	createBoard
-	createState
+	createPiece,
+	createBoard,
+	createState,
 
-	getPiece
-	setPiece
+	getPiece,
+	setPiece,
 
 }
