@@ -33,7 +33,28 @@ function setPiece(state, {x,y, color}) {
 }
 
 function getPiece(state, {x,y}) {
+	if(y < 0 || y >= state.board.length) {
+		return null;
+	}
+	if(x < 0 || x >= state.board[y].length) {
+		return null;
+	}
 	return state.board[y][x];
+}
+
+function isFree(state, pos) {
+	var piece = getPiece(state, pos);
+	return !!piece && piece.color === null;
+}
+
+function isOpponent(state, pos) {
+	var piece = getPiece(state, pos);
+	return !!piece && piece.color === (state.playerInTurn === "white" ? "black" : "white");
+}
+
+function isFriendly(state, pos) {
+	var piece = getPiece(state, pos);
+	return !!piece && getPiece(state, pos).color === state.playerInTurn;
 }
 
 export {
@@ -46,4 +67,7 @@ export {
 	getPiece,
 	setPiece,
 
+	isFree,
+	isOpponent,
+	isFriendly
 }
