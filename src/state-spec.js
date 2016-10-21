@@ -17,16 +17,16 @@ describe("state", function () {
 		})
 	});
 
-	describe("createState", function() {
-		it("creation",function() {
-			expect(state.createState({board: state.createBoard('.. ..'), playerInTurn: "white"}))
-			.toEqual({playerInTurn: "white", board: state.createBoard('.. ..')});
-		});
-		it("empty",function() {
-			expect(state.createState({board: state.createBoard(), playerInTurn: "white"}))
-			.toEqual({playerInTurn: "white", board: state.createBoard()});
-		});
-	});
+    describe("createState", function () {
+        it("creation", function () {
+            expect(state.createState({board: state.createBoard('.. ..'), playerInTurn: "white"}))
+                .toEqual({playerInTurn: "white", board: state.createBoard('.. ..'), history: []});
+        });
+        it("empty", function () {
+            expect(state.createState({board: state.createBoard(), playerInTurn: "white"}))
+                .toEqual({playerInTurn: "white", board: state.createBoard(), history: []});
+        });
+    });
 
 	describe("createPiece", function() {
 		it("white", function() {

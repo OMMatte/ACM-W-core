@@ -25,7 +25,7 @@ function createBoard(board = "") {
 }
 
 function createState({board, playerInTurn}) {
-	return {playerInTurn, board};
+	return {playerInTurn, board, history: []};
 }
 
 function setPiece(state, {x,y, color}) {

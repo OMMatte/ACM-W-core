@@ -1,36 +1,13 @@
 // The functions here handle the rules/logic for the game
 import * as stateFunctions from "./state.js"
-
-function getNextPlayerPieceXPosition(state, {initX,y, color, incrementor}) {
-	var opponentColor = color === "white" ? "black" : "white";
-	var x = incrementor(initX);
-	if((x < 0 || x >= state.board[y].length || state.board[y][x].color == null))
-		return initX;
-
-	for(; x < state.board[y].length; x = incrementor(x)) {
-		if(state.board[y][x].color == opponentColor) continue;
-		if(state.board[y][x].color == null) throw new Error("Invalid move attempted.");
-		if(state.board[y][x].color == color) return x;
-	}
-	throw new Error("Invalid move attempted");
-}
-
-function getNextPlayerPieceYPosition(state, {x,initY, color, incrementor}) {
-	var opponentColor = color === "white" ? "black" : "white";
-	var y = incrementor(initY);
-	if((y < 0 || y >= state.board.length || state.board[y][x].color == null))
-		return initY;
-
-	for(; y < state.board.length; y = incrementor(y)) {
-		if(state.board[y][x].color == opponentColor) continue;
-		if(state.board[y][x].color == null) throw new Error("Invalid move attempted.");
-		if(state.board[y][x].color == color) return y;
-	}
-	throw new Error("Invalid move attempted");
-}
+import clone from "./clone.js"
 
 function makeMove(state, {x,y}) {
 	if(!isValidMove(state,{x,y, color: state.playerInTurn})) throw Error("The requested move is not valid.");
+
+	var historyState = clone(state);
+	historyState.history = null;
+	state.history.push(historyState);
 
 	stateFunctions.setPiece(state, {x,y,color:state.playerInTurn});
 	var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
@@ -47,17 +24,6 @@ function makeMove(state, {x,y}) {
 			}
 		}
 	});
-
-	//var leftX = getNextPlayerPieceXPosition(state, {initX: x,y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
-	//var rightX = getNextPlayerPieceXPosition(state,{initX: x,y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
-
-	//var topY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
-	//var bottomY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
-
-	//for(var xpos = leftX; xpos <= rightX; xpos++)
-	//	stateFunctions.setPiece(state,{x: xpos, y, color: state.playerInTurn});
-	//for(var ypos = topY; ypos <= bottomY; ypos++)
-	//	stateFunctions.setPiece(state,{x, y: ypos, color: state.playerInTurn});
 
 	state.playerInTurn = state.playerInTurn === "white" ? "black" : "white";
 	if(validMoves(state).length === 0) {

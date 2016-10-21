@@ -40,19 +40,25 @@ describe("core", function () {
         it("basic test", function () {
             var gameState = state.createState({board: state.createBoard(".bbw .bw."), playerInTurn: "white"});
             core.makeMove(gameState, {x: 0, y: 0});
-            expect(gameState).toEqual(state.createState({board: state.createBoard("wwww .bw."), playerInTurn: "black"}));
+            expect(gameState.board).toEqual(state.createBoard("wwww .bw."));
+            expect(gameState.playerInTurn).toEqual("black");
+            var historyState = state.createState({board: state.createBoard(".bbw .bw."), playerInTurn: "white"});
+            historyState.history = null;
+            expect(gameState.history).toEqual([historyState]);
         });
 
         it("no more moves test", function () {
             var gameState = state.createState({board: state.createBoard(".bbw ...."), playerInTurn: "white"});
             core.makeMove(gameState, {x: 0, y: 0});
-            expect(gameState).toEqual(state.createState({board: state.createBoard("wwww ...."), playerInTurn: "white"}));
+            expect(gameState.board).toEqual(state.createBoard("wwww ...."));
+            expect(gameState.playerInTurn).toEqual("white");
         });
 
         it("make diagonal move", function () {
             var gameState = state.createState({board: state.createBoard("..w .b. ..."), playerInTurn: "white"});
             core.makeMove(gameState, {x: 0, y: 2});
-            expect(gameState).toEqual(state.createState({board: state.createBoard("..w .w. w.."), playerInTurn: "white"}));
+            expect(gameState.board).toEqual(state.createBoard("..w .w. w.."));
+            expect(gameState.playerInTurn).toEqual("white");
         });
     })
 });
