@@ -65,22 +65,22 @@ describe("state", function () {
 
 	describe("setPiece", function() {
 		it("white", function() {
-			var empty2x2Board = state.createState(state.createBoard(".. .."),"white");
-			var expectedBoard = state.createState(state.createBoard("w. .."), "white");
+			var empty2x2Board = state.createState({ board: state.createBoard(".. .."), playerInTurn: "white"});
+			var expectedBoard = state.createState({ board: state.createBoard("w. .."), playerInTurn: "white"});
 			expect(state.setPiece(empty2x2Board, {x:0,y:0,color: "white"}))
 			.toEqual(expectedBoard);
 		});
 
 		it("black", function() {
-			var empty2x2Board = state.createState(state.createBoard(".. .."),"white");
-			var expectedBoard = state.createState(state.createBoard("b. .."), "white");
+			var empty2x2Board = state.createState({ board: state.createBoard(".. .."), playerInTurn: "white"});
+			var expectedBoard = state.createState({ board: state.createBoard("b. .."), playerInTurn: "white"});
 			expect(state.setPiece(empty2x2Board, {x:0,y:0,color: "black"}))
 			.toEqual(expectedBoard);
 		});
 	});
 
 	describe("getPiece", function() {
-		var initialBoard = state.createState(state.createBoard("w. b."), "white");
+		var initialBoard = state.createState({ board: state.createBoard("w. b."), playerInTurn: "white"});
 
 		it("white", function() {
 			expect(state.getPiece(initialBoard, {x:0,y:0}))
