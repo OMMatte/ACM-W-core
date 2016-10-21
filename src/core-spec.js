@@ -30,9 +30,9 @@ describe("core", function () {
 
     describe("makeMove", function () {
         it("basic test", function () {
-            var gameState = state.createState({board: state.createBoard(".bbw ...."), playerInTurn: "white"});
+            var gameState = state.createState({board: state.createBoard(".bbw .bw."), playerInTurn: "white"});
             core.makeMove(gameState, {x: 0, y: 0});
-            expect(gameState).toEqual(state.createState({board: state.createBoard("wwww ...."), playerInTurn: "black"}));
+            expect(gameState).toEqual(state.createState({board: state.createBoard("wwww .bw."), playerInTurn: "black"}));
         });
     })
 });

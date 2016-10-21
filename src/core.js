@@ -46,6 +46,9 @@ function makeMove(state, {x,y}) {
 		stateFunctions.setPiece(state,{x, y: ypos, color: state.playerInTurn});
 
 	state.playerInTurn = state.playerInTurn === "white" ? "black" : "white";
+	if(validMoves(state).length === 0) {
+		state.playerInTurn = state.playerInTurn === "white" ? "black" : "white";
+	}
 }
 
 function validMoves(state) {
