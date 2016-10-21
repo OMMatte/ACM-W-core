@@ -3,19 +3,22 @@
 
 module.exports = function(config) {
   config.set({
-
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['browserify', 'jasmine'],
 
+    browserify: {
+      debug: true,
+      transform: [ ['babelify', {presets: ['es2015']} ] ]
+    },
 
     // list of files / patterns to load in the browser
     files: [
-      'src/**/*spec.js'
+      'src/**/*.js'
     ],
 
 
@@ -27,13 +30,15 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'src/**/*.js': ['browserify']
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['jasmine-diff', 'mocha'],
+
+
 
     jasmineDiffReporter: {
       pretty: true,       // 2 spaces by default for one indent level
