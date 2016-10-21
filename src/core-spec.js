@@ -34,6 +34,12 @@ describe("core", function () {
             core.makeMove(gameState, {x: 0, y: 0});
             expect(gameState).toEqual(state.createState({board: state.createBoard("wwww .bw."), playerInTurn: "black"}));
         });
+
+        it("no more moves test", function () {
+            var gameState = state.createState({board: state.createBoard(".bbw ...."), playerInTurn: "white"});
+            core.makeMove(gameState, {x: 0, y: 0});
+            expect(gameState).toEqual(state.createState({board: state.createBoard("wwww ...."), playerInTurn: "white"}));
+        });
     })
 });
 
