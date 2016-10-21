@@ -20,7 +20,7 @@ function getNextPlayerPieceYPosition(state, {x,initY, color, incrementor}) {
 	var y = incrementor(initY);
 	if((y < 0 || y >= state.board.length || state.board[y][x].color == null))
 		return initY;
-	
+
 	for(; y < state.board.length; y = incrementor(y)) {
 		if(state.board[y][x].color == opponentColor) continue;
 		if(state.board[y][x].color == null) throw new Error("Invalid move attempted.");
@@ -40,9 +40,9 @@ function makeMove(state, {x,y}) {
 	var topY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
 	var bottomY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
 
-	for(int xpos = leftX; xpos <= rightX; xpos++)
+	for(var xpos = leftX; xpos <= rightX; xpos++)
 		gamestate.setPiece(state,{x: xpos, y, color: state.playerInTurn});
-	for(int ypos = topY; ypos <= bottomY; ypos++)
+	for(var ypos = topY; ypos <= bottomY; ypos++)
 		gamestate.setPiece(state,{x, y: ypos, color: state.playerInTurn});
 
 	state.playerInTurn = state.playerInTurn === "white" ? "black" : "white";

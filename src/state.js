@@ -29,14 +29,14 @@ function createState({board, playerInTurn}) {
 }
 
 function setPiece(state, {x,y, color}) {
-	state.board[y][x] = createPiece({color});
+	state.board[y][x] = createPiece(color);
 }
 
 function getPiece(state, {x,y}) {
 	return state.board[y][x];
 }
 
-export { 
+export {
 	charToColor,
 
 	createPiece,

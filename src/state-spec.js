@@ -67,15 +67,15 @@ describe("state", function () {
 		it("white", function() {
 			var empty2x2Board = state.createState({ board: state.createBoard(".. .."), playerInTurn: "white"});
 			var expectedBoard = state.createState({ board: state.createBoard("w. .."), playerInTurn: "white"});
-			expect(state.setPiece(empty2x2Board, {x:0,y:0,color: "white"}))
-			.toEqual(expectedBoard);
+            state.setPiece(empty2x2Board, {x:0,y:0,color: "white"});
+			expect(empty2x2Board).toEqual(expectedBoard);
 		});
 
 		it("black", function() {
 			var empty2x2Board = state.createState({ board: state.createBoard(".. .."), playerInTurn: "white"});
 			var expectedBoard = state.createState({ board: state.createBoard("b. .."), playerInTurn: "white"});
-			expect(state.setPiece(empty2x2Board, {x:0,y:0,color: "black"}))
-			.toEqual(expectedBoard);
+            state.setPiece(empty2x2Board, {x:0,y:0,color: "black"});
+			expect(empty2x2Board).toEqual(expectedBoard);
 		});
 	});
 
@@ -84,17 +84,17 @@ describe("state", function () {
 
 		it("white", function() {
 			expect(state.getPiece(initialBoard, {x:0,y:0}))
-			.toEqual(createPiece("white"));
+			.toEqual(state.createPiece("white"));
 		});
 
 		it("black", function() {
 			expect(state.getPiece(initialBoard, {x:0,y:1}))
-			.toEqual(createPiece("black"));
+			.toEqual(state.createPiece("black"));
 		});
 
 		it("empty", function() {
 			expect(state.getPiece(initialBoard, {x:1,y:1}))
-			.toEqual(createPiece(null));
+			.toEqual(state.createPiece(null));
 		});
 	});
 });
