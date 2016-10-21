@@ -31,19 +31,33 @@ function getNextPlayerPieceYPosition(state, {x,initY, color, incrementor}) {
 
 function makeMove(state, {x,y}) {
 	if(!isValidMove(state,{x,y, color: state.playerInTurn})) throw Error("The requested move is not valid.");
-	stateFunctions.setPiece(state, {x,y, color: state.playerInTurn});
 
-	stateFunctions.setPiece(state, {x,y, color: state.playerInTurn});
-	var leftX = getNextPlayerPieceXPosition(state, {initX: x,y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
-	var rightX = getNextPlayerPieceXPosition(state,{initX: x,y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
+	stateFunctions.setPiece(state, {x,y,color:state.playerInTurn});
+	var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
 
-	var topY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
-	var bottomY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
+	directions.forEach(function (dir) {
+		var xDir = dir[0];
+		var yDir = dir[1];
+		for (var multiplier = 1; stateFunctions.isOpponent(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
+			if (stateFunctions.isFriendly(state, {x: x + xDir * (multiplier + 1), y: y + yDir * (multiplier + 1)})) {
+				for(var start = 0; start <= multiplier; start++) {
+					stateFunctions.setPiece(state,{x:x+xDir*start,y:y+yDir*start, color:state.playerInTurn});
+				}
+				return;
+			}
+		}
+	});
 
-	for(var xpos = leftX; xpos <= rightX; xpos++)
-		stateFunctions.setPiece(state,{x: xpos, y, color: state.playerInTurn});
-	for(var ypos = topY; ypos <= bottomY; ypos++)
-		stateFunctions.setPiece(state,{x, y: ypos, color: state.playerInTurn});
+	//var leftX = getNextPlayerPieceXPosition(state, {initX: x,y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
+	//var rightX = getNextPlayerPieceXPosition(state,{initX: x,y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
+
+	//var topY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x-1;}});
+	//var bottomY = getNextPlayerPieceYPosition(state,{x, initY: y, color: state.playerInTurn, incrementor: function(x){return x+1;}});
+
+	//for(var xpos = leftX; xpos <= rightX; xpos++)
+	//	stateFunctions.setPiece(state,{x: xpos, y, color: state.playerInTurn});
+	//for(var ypos = topY; ypos <= bottomY; ypos++)
+	//	stateFunctions.setPiece(state,{x, y: ypos, color: state.playerInTurn});
 
 	state.playerInTurn = state.playerInTurn === "white" ? "black" : "white";
 	if(validMoves(state).length === 0) {
@@ -69,12 +83,12 @@ function isValidMove(state, {x,y}) {
     }
     var validMove = false;
 
-    var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0]];
+    var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
 
     directions.forEach(function (dir) {
 	    var xDir = dir[0];
 	    var yDir = dir[1];
-        for (var multiplier = 1; stateFunctions.isOpponent(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
+	    for (var multiplier = 1; stateFunctions.isOpponent(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
             if (stateFunctions.isFriendly(state, {x: x + xDir * (multiplier + 1), y: y + yDir * (multiplier + 1)})) {
                 validMove = true;
             }
@@ -83,9 +97,22 @@ function isValidMove(state, {x,y}) {
     return validMove;
 }
 
-function score() {
-
+function score(state, color) {
+	//var score=0;
+	//for(var row in state.board)
+	//	for(var col in row)
+	//		if(row.color === color)
+	//			score++;
+	//return score;
 }
+//
+//function isGameOver(state){
+//	if(validMoves(state).length > 0) return false;
+//	state.playerInTurn = state.playerInTurn==="white"?"black":"white";
+//	var res = !validMoves(state);
+//	state.playerInTurn = state.playerInTurn==="white"?"black":"white";
+//	return res;
+//}
 
 export {
 	makeMove,
