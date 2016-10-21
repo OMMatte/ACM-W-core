@@ -75,18 +75,15 @@ function score(state, color) {
 
 	return score;
 }
-//
-//function isGameOver(state){
-//	if(validMoves(state).length > 0) return false;
-//	state.playerInTurn = state.playerInTurn==="white"?"black":"white";
-//	var res = !validMoves(state);
-//	state.playerInTurn = state.playerInTurn==="white"?"black":"white";
-//	return res;
-//}
+
+function isGameOver(state){
+	return validMoves(state).length === 0;
+}
 
 export {
 	makeMove,
 	validMoves,
 	isValidMove,
-	score
+	score,
+	isGameOver
 }

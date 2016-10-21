@@ -60,13 +60,23 @@ describe("core", function () {
             expect(gameState.board).toEqual(state.createBoard("..w .w. w.."));
             expect(gameState.playerInTurn).toEqual("white");
         });
-    })
+    });
 
     describe("score", function () {
         it("basic test", function () {
             var gameState = state.createState({board: state.createBoard(".bbw .bw."), playerInTurn: "white"});
             expect(core.score(gameState, "black")).toEqual(3);
             expect(core.score(gameState, "white")).toEqual(2);
+        });
+    });
+
+    describe("gameOver", function () {
+        it("basic test", function () {
+            var gameState = state.createState({board: state.createBoard("bbbb wbb."), playerInTurn: "white"});
+            expect(core.isGameOver(gameState)).toEqual(false);
+
+            core.makeMove(gameState, {x: 3, y:1});
+            expect(core.isGameOver(gameState)).toEqual(true);
         });
     });
 });
