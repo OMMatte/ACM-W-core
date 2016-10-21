@@ -61,5 +61,13 @@ describe("core", function () {
             expect(gameState.playerInTurn).toEqual("white");
         });
     })
+
+    describe("score", function () {
+        it("basic test", function () {
+            var gameState = state.createState({board: state.createBoard(".bbw .bw."), playerInTurn: "white"});
+            expect(core.score(gameState, "black")).toEqual(3);
+            expect(core.score(gameState, "white")).toEqual(2);
+        });
+    });
 });
 

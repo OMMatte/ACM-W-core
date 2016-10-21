@@ -64,12 +64,16 @@ function isValidMove(state, {x,y}) {
 }
 
 function score(state, color) {
-	//var score=0;
-	//for(var row in state.board)
-	//	for(var col in row)
-	//		if(row.color === color)
-	//			score++;
-	//return score;
+	var score = 0;
+	state.board.forEach(function (row) {
+		row.forEach(function (piece) {
+			if (piece.color === color) {
+				score++;
+			}
+		});
+	});
+
+	return score;
 }
 //
 //function isGameOver(state){
