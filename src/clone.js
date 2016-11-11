@@ -1,5 +1,5 @@
 function isPrimitive(object) {
-    return typeof object !== "object" ||  object === null || object === undefined
+    return typeof object !== "object" || object === null || object === undefined
 }
 
 export default function clone(source) {
@@ -19,7 +19,7 @@ export default function clone(source) {
         for (var prop in source) {
             if (source.hasOwnProperty(prop)) {
                 var value = source[prop];
-                if (isPrimitive(value)){
+                if (isPrimitive(value)) {
                     clonedObject[prop] = value;
                 } else {
                     clonedObject[prop] = clone(value);

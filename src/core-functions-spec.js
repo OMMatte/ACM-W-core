@@ -75,7 +75,7 @@ describe("core", function () {
             var gameState = stateFunctions.createState({board: stateFunctions.createBoard("bbbb wbb."), playerInTurn: "white"});
             expect(coreFunctions.isGameOver(gameState)).toEqual(false);
 
-            coreFunctions.makeMove(gameState, {x: 3, y:1});
+            coreFunctions.makeMove(gameState, {x: 3, y: 1});
             expect(coreFunctions.isGameOver(gameState)).toEqual(true);
         });
     });
