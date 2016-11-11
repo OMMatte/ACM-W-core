@@ -1,5 +1,6 @@
 // The functions here handle the rules/logic for the game
-import * as stateFunctions from "./state.js"
+
+import * as stateFunctions from "./state-functions.js"
 import clone from "./clone.js"
 
 function makeMove(state, {x,y}) {
