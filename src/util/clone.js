@@ -3,7 +3,6 @@ function isPrimitive(object) {
 }
 
 export default function clone(source) {
-
     if (Array.isArray(source)) {
         var clonedArray = [];
         source.forEach(function (item) {
