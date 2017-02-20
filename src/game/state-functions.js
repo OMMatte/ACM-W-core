@@ -2,7 +2,7 @@
 // The functions here have no comprehension of the rules of the game
 
 function helloWorld() {
-    return "Hello World!"
+    return "Hello World!";
 }
 
 export {

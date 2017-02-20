@@ -24,6 +24,7 @@ describe("util", function () {
         var clonedObject = clone(object);
         clonedObject.list.push(1);
         clonedObject[1].deepList.push(2);
+
         expect(object).toEqual({
             1: {
                 deepList: []
