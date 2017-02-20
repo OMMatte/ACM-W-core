@@ -27,13 +27,14 @@
     "lint": "eslint src",
     "test": "karma start --single-run",
     "build:css": "node-sass src/client/css/main.scss build/index.css",
-    "build:js": "browserify index.js -o build/index.js",
+    "build:js": "browserify -d index.js -o build/index.js",
+    "build:test": "browserify -d src/**/*-spec.js -o build/tests.js",
     "watch:css": "nodemon -q -w src/styling/ --ext \".scss\" --exec \"npm run build:css\"",
     "watch:lint": "nodemon -q -w src/ --ext \".*\" --exec \"npm run lint\"",
     "watch:js": "npm run build:js && watchify index.js -o build/index.js -d",
     "watch:test": "karma start",
     "watch:test:lint": "nodemon -q -w src/ --ext \".*\" --exec \"npm run test && npm run lint\"",
-    "watch": "nodemon -q -w src/ --ext \".*\" --exec \"npm run build:css && npm run build:js && npm run test\""
+    "watch": "nodemon -q -w src/ --ext \".*\" --exec \"npm run build:css && npm run build:js && npm run build:test && npm run test\""
   },
   "babel": {
     "presets": [
