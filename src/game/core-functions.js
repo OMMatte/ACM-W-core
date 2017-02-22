@@ -2,58 +2,102 @@
 import * as sf from './state-functions.js';
 
 function getValidMoves(state) {
-    // TODO
-}
+    var validMoves = [];
 
-function isFriendly(state, options) {
-    if(!sf.isPositionInsideBoard(state, options)) {
-        return false;
+    for (var row = 0; row < sf.getBoard(state).length; row++) {
+        for (var col = 0; col < sf.getBoard(state)[0].length; col++) {
+            if (getPositionsToSwap(state, {x: col, y: row}).length > 0) {
+                validMoves.push({x: col, y: row});
+            }
+        }
     }
-    return sf.getPosition(state, options).player === state.playerInTurn;
+
+    return validMoves;
 }
 
-function isEnemy(state, options) {
-    if(!sf.isPositionInsideBoard(state, options)) {
-        return false;
-    }
-    return sf.getPosition(state, options).player === (state.playerInTurn === "white" ? "black" : "white");
-}
-
-function isValidMove(state, options) {
-    // TODO
-}
-
-function move(state, options) {
+function getPositionsToSwap(state, options) {
     var x = options.x;
     var y = options.y;
-    sf.mark(state, {x: x, y: y, player: state.playerInTurn});
-    // if (!isValidMove(state, {x, y})) throw Error("The requested move is not valid.");
+
+    if (!sf.isPositionInsideBoard(state, options) || sf.isOccupied(state, options)) {
+        return [];
+    }
 
     var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
 
+    var positionsToSwap = [];
     directions.forEach(function (dir) {
         var xDir = dir[0];
         var yDir = dir[1];
-
-        for(var multiplier = 1; isEnemy(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
+        for (var multiplier = 1; isEnemy(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
             if (isFriendly(state, {x: x + xDir * (multiplier + 1), y: y + yDir * (multiplier + 1)})) {
                 for (var start = 0; start <= multiplier; start++) {
-                    sf.mark(state, {x: x + xDir * start, y: y + yDir * start, player: state.playerInTurn});
+                    positionsToSwap.push({x: x + xDir * start, y: y + yDir * start});
                 }
                 return;
             }
         }
     });
 
-    sf.setPlayerInTurn(state, {playerInTurn: state.playerInTurn === "white" ? "black" : "white"});
+    return positionsToSwap;
+}
+
+function isFriendly(state, options) {
+    if (!sf.isPositionInsideBoard(state, options)) {
+        return false;
+    }
+    return sf.getPosition(state, options).player === sf.getPlayerInTurn(state);
+}
+
+function isEnemy(state, options) {
+    if (!sf.isPositionInsideBoard(state, options)) {
+        return false;
+    }
+    return sf.getPosition(state, options).player === (sf.getPlayerInTurn(state) === "white" ? "black" : "white");
+}
+
+function isMoveValid(state, options) {
+    var x = options.x;
+    var y = options.y;
+
+    var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
+    var validMove = false;
+
+    directions.forEach(function (direction) {
+        var xDir = direction[0];
+        var yDir = direction[1];
+        for (var multiplier = 1; isEnemy(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
+            if (isFriendly(state, {x: x + xDir * (multiplier + 1), y: y + yDir * (multiplier + 1)})) {
+                validMove = true;
+            }
+        }
+    });
+    return validMove;
+}
+
+function switchPlayerInTurn(state) {
+    if (sf.getPlayerInTurn(state) === "white") {
+        sf.setPlayerInTurn(state, {playerInTurn: "black"});
+    } else {
+        sf.setPlayerInTurn(state, {playerInTurn: "white"});
+    }
+    return state;
+}
+
+function move(state, options) {
+    getPositionsToSwap(state, options).forEach(function (pos) {
+        sf.mark(state, {x: pos.x, y: pos.y, player: sf.getPlayerInTurn(state)});
+    });
+    switchPlayerInTurn(state);
     return state;
 }
 
 export {
+    getPositionsToSwap,
     getValidMoves,
     isFriendly,
     isEnemy,
-    isValidMove,
+    isMoveValid,
     move,
-
+    switchPlayerInTurn
 }

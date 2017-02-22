@@ -20,30 +20,47 @@ describe("core", function () {
         });
     });
 
-    describe("isValidMove", function () {
+    describe("getPositionsToSwap", function () {
+        it("test that the player in turn gets positions to swap given a position", function () {
+            expect(cf.getPositionsToSwap(sf.createState({board: [".bbw"]}), {x: 0, y: 0})).toEqual(
+                [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}]
+            );
+            expect(cf.getPositionsToSwap(sf.createState({board: [".bbw"]}), {x: 1, y: 0})).toEqual(
+                []
+            );
+            // expect(cf.getPositionsToSwap(sf.createState({board: [".bbw"]}), {x: 3, y: 0})).toEqual(
+            //     []
+            // );
+            // expect(cf.getPositionsToSwap(sf.createState({board: ["..bw"]}), {x: 0, y: 0})).toEqual(
+            //     []
+            // );
+        });
+    });
+
+    describe("isMoveValid", function () {
         it("test that the pos in question is owned by the opposing player of playerInTurn", function () {
-            expect(cf.isValidMove(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 0, y: 0})).toBe(true);
-            expect(cf.isValidMove(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 1, y: 0})).toBe(false);
-            expect(cf.isValidMove(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 2, y: 0})).toBe(false);
+            expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 0, y: 0})).toBe(true);
+            expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: ["..bw"]}), {x: 0, y: 0})).toBe(false);
+            expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 1, y: 0})).toBe(false);
+            expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 2, y: 0})).toBe(false);
         });
     });
 
     describe("getValidMoves", function () {
         it("test that the pos in question is owned by the opposing player of playerInTurn", function () {
             expect(cf.getValidMoves(sf.createState({playerInTurn: "white", board: [".bw"]}))).toEqual([{x: 0, y: 0}]);
-            expect(cf.getValidMoves(sf.createState({playerInTurn: "black", board: [".bw"]}))).toEqual([]);
-
-            expect(cf.getValidMoves(sf.createState({
-                playerInTurn: "white",
-                board: [
-                    "....",
-                    "bb..",
-                    "wbb."
-                ]
-            }))).toEqual([
-                {x: 0, y: 0},
-                {x: 2, y: 0},
-                {x: 3, y: 2}]);
+            // expect(cf.getValidMoves(sf.createState({playerInTurn: "black", board: [".bw"]}))).toEqual([]);
+            //
+            // expect(cf.getValidMoves(sf.createState({
+            //     playerInTurn: "white",
+            //     board: [
+            //         "....",
+            //         "bb..",
+            //         "w.b."
+            //     ]
+            // }))).toEqual([
+            //     {x: 0, y: 0},
+            //     {x: 2, y: 0}]);
         });
     });
 
@@ -95,6 +112,33 @@ describe("core", function () {
                     "wbb."
                 ]
             }));
+
+            it("test advanced move, changing pieces in multiple directions", function () {
+                expect(cf.move(sf.createState(
+                    {
+                        board: [
+                            "b...",
+                            "w.w.",
+                            "bb..",
+                            ".bb."
+                        ]
+                    }), {x: 0, y: 3})).toEqual(sf.createState({
+                    playerInTurn: "black",
+                    board: [
+                        "b...",
+                        "w.w.",
+                        "ww..",
+                        "wbb."
+                    ]
+                }));
+            });
+        });
+    });
+
+    describe("switchPlayerInTurn", function () {
+        it("test basic functionality", function () {
+            expect(sf.getPlayerInTurn(cf.switchPlayerInTurn(sf.createState({playerInTurn: "white", board: [""]})))).toEqual("black");
+            expect(sf.getPlayerInTurn(cf.switchPlayerInTurn(sf.createState({playerInTurn: "black", board: [""]})))).toEqual("white");
         });
     });
 });

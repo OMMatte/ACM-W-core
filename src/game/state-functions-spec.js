@@ -28,7 +28,7 @@ describe("state", function () {
         });
 
         it("white should be default player in turn", function () {
-            expect(sf.createState({board: [".wb"]}).playerInTurn).toEqual("white");
+            expect(sf.getPlayerInTurn(sf.createState({board: [".wb"]}))).toEqual("white");
         });
     });
 
@@ -38,6 +38,24 @@ describe("state", function () {
                 .toEqual({player: null});
             expect(sf.getPosition(sf.createState({board: ["..w"]}), {x: 2, y: 0}))
                 .toEqual({player: "white"});
+        });
+    });
+
+    describe("getPlayerInTurn", function () {
+        it("test basic functionality", function () {
+            expect(sf.getPlayerInTurn(sf.createState({playerInTurn: "black", board: [""]})))
+                .toEqual("black");
+        });
+    });
+
+    describe("isOccupied", function () {
+        it("test basic functionality", function () {
+            expect(sf.isOccupied(sf.createState({board: [".bw"]}), {x: 0, y: 0}))
+                .toEqual(false);
+            expect(sf.isOccupied(sf.createState({board: [".bw"]}), {x: 1, y: 0}))
+                .toEqual(true);
+            expect(sf.isOccupied(sf.createState({board: [".bw"]}), {x: 2, y: 0}))
+                .toEqual(true);
         });
     });
 
@@ -70,14 +88,14 @@ describe("state", function () {
 
     describe("setPlayerInTurn", function () {
         it("test basic functionality", function () {
-            expect(sf.setPlayerInTurn(sf.createState(
+            expect(sf.getPlayerInTurn(sf.setPlayerInTurn(sf.createState(
                 {board: []}),
-                {playerInTurn: "black"}).playerInTurn)
+                {playerInTurn: "black"})))
                 .toEqual("black");
 
-            expect(sf.setPlayerInTurn(sf.createState(
+            expect(sf.getPlayerInTurn(sf.setPlayerInTurn(sf.createState(
                 {playerInTurn: "black", board: []}),
-                {playerInTurn: "white"}).playerInTurn)
+                {playerInTurn: "white"})))
                 .toEqual("white");
         });
     })

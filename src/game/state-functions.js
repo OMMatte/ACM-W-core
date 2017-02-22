@@ -20,16 +20,27 @@ function createState(options) {
     }
 }
 
+function getBoard(state) {
+    return state.board;
+}
+
+function getPlayerInTurn(state) {
+    return state.playerInTurn;
+}
 
 function getPosition(state, options) {
     return state.board[options.y][options.x];
 }
 
+function isOccupied(state, options) {
+    return getPosition(state, options).player !== null;
+}
+
 function isPositionInsideBoard(state, options) {
-    if(options.x < 0 || options.x >= state.board[0].length) {
+    if (options.x < 0 || options.x >= state.board[0].length) {
         return false;
     }
-    if(options.y < 0 || options.y >= state.board.length) {
+    if (options.y < 0 || options.y >= state.board.length) {
         return false;
     }
     return true;
@@ -48,7 +59,10 @@ function setPlayerInTurn(state, options) {
 
 export {
     createState,
+    getBoard,
+    getPlayerInTurn,
     getPosition,
+    isOccupied,
     isPositionInsideBoard,
     mark,
     setPlayerInTurn
