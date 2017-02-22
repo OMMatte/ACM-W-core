@@ -2,17 +2,26 @@
 import * as sf from './state-functions.js';
 
 function getValidMoves(state) {
-    var validMoves = [];
 
-    for (var row = 0; row < sf.getBoard(state).length; row++) {
-        for (var col = 0; col < sf.getBoard(state)[0].length; col++) {
-            if (isMoveValid(state, {x: col, y: row})) {
-                validMoves.push({x: col, y: row});
+    return sf.getBoard(state).reduce(function (result, row, y) {
+        return result.concat(row.reduce(function (rowResult, position, x) {
+            if (isMoveValid(state, {x: x, y: y})) {
+                rowResult.push({x: x, y: y});
             }
-        }
-    }
+            return rowResult;
+        }, []))
+    }, []);
 
-    return validMoves;
+    // var validMoves = [];
+    // for (var row = 0; row < sf.getBoard(state).length; row++) {
+    //     for (var col = 0; col < sf.getBoard(state)[0].length; col++) {
+    //         if (isMoveValid(state, {x: col, y: row})) {
+    //             validMoves.push({x: col, y: row});
+    //         }
+    //     }
+    // }
+
+    // return validMoves;
 }
 
 function getPositionsToSwap(state, options) {
@@ -23,23 +32,34 @@ function getPositionsToSwap(state, options) {
         return [];
     }
 
+    var getPositionsToSwapInDirection = function (direction) {
+        var xDir = direction[0];
+        var yDir = direction[1];
+
+        var innerLoop = function (result, multiplier) {
+            var position = {x: x + xDir * multiplier, y: y + yDir * multiplier};
+            if (isEnemy(state, position)) {
+                result.push(position);
+                return innerLoop(result, multiplier + 1);
+            } else if (isFriendly(state, position)) {
+                return result;
+            } else {
+                return [];
+            }
+        };
+        return innerLoop([], 1);
+    };
+
     var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
 
-    var positionsToSwap = [];
-    directions.forEach(function (dir) {
-        var xDir = dir[0];
-        var yDir = dir[1];
-        for (var multiplier = 1; isEnemy(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
-            if (isFriendly(state, {x: x + xDir * (multiplier + 1), y: y + yDir * (multiplier + 1)})) {
-                for (var start = 0; start <= multiplier; start++) {
-                    positionsToSwap.push({x: x + xDir * start, y: y + yDir * start});
-                }
-                return;
-            }
-        }
-    });
+    var positionsToSwap = [{x: options.x, y: options.y}].concat(directions.reduce(function (result, direction) {
+        return result.concat(getPositionsToSwapInDirection(direction));
+    }, []));
 
-    return positionsToSwap;
+    if (positionsToSwap.length > 1) {
+        return positionsToSwap;
+    }
+    return [];
 }
 
 function isFriendly(state, options) {

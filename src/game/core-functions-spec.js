@@ -38,7 +38,7 @@ describe("core", function () {
     });
 
     describe("isMoveValid", function () {
-        it("test that the pos in question is owned by the opposing player of playerInTurn", function () {
+        it("...", function () {
             expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 0, y: 0})).toBe(true);
             expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: ["..bw"]}), {x: 0, y: 0})).toBe(false);
             expect(cf.isMoveValid(sf.createState({playerInTurn: "white", board: [".bw"]}), {x: 1, y: 0})).toBe(false);
