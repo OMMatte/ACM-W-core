@@ -57,7 +57,16 @@ function isEnemy(state, options) {
 }
 
 function isMoveValid(state, options) {
-    var x = options.x;
+
+    var positionsToSwap = getPositionsToSwap(state, options);
+    if(positionsToSwap.length > 0){
+        return true;
+    }
+    return false;
+
+
+
+  /*  var x = options.x;
     var y = options.y;
 
     var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
@@ -73,6 +82,7 @@ function isMoveValid(state, options) {
         }
     });
     return validMove;
+    */
 }
 
 function switchPlayerInTurn(state) {
