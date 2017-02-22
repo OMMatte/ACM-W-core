@@ -57,22 +57,7 @@ function isEnemy(state, options) {
 }
 
 function isMoveValid(state, options) {
-    var x = options.x;
-    var y = options.y;
-
-    var directions = [[0, 1], [1, 1], [1, 0], [0, -1], [-1, -1], [-1, 0], [1, -1], [-1, 1]];
-    var validMove = false;
-
-    directions.forEach(function (direction) {
-        var xDir = direction[0];
-        var yDir = direction[1];
-        for (var multiplier = 1; isEnemy(state, {x: x + xDir * multiplier, y: y + yDir * multiplier}); multiplier++) {
-            if (isFriendly(state, {x: x + xDir * (multiplier + 1), y: y + yDir * (multiplier + 1)})) {
-                validMove = true;
-            }
-        }
-    });
-    return validMove;
+    return (getPositionsToSwap(state, options).length > 0)
 }
 
 function switchPlayerInTurn(state) {
