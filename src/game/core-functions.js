@@ -6,7 +6,7 @@ function getValidMoves(state) {
 
     for (var row = 0; row < sf.getBoard(state).length; row++) {
         for (var col = 0; col < sf.getBoard(state)[0].length; col++) {
-            if (getPositionsToSwap(state, {x: col, y: row}).length > 0) {
+            if (isMoveValid(state, {x: col, y: row})) {
                 validMoves.push({x: col, y: row});
             }
         }
