@@ -1,8 +1,8 @@
 // The functions here handle the rules/logic for the game
 import * as sf from './state-functions.js';
+import clone from './../util/clone.js';
 
 function getValidMoves(state) {
-
     return sf.getBoard(state).reduce(function (result, row, y) {
         return result.concat(row.reduce(function (rowResult, position, x) {
             if (isMoveValid(state, {x: x, y: y})) {
@@ -11,17 +11,6 @@ function getValidMoves(state) {
             return rowResult;
         }, []))
     }, []);
-
-    // var validMoves = [];
-    // for (var row = 0; row < sf.getBoard(state).length; row++) {
-    //     for (var col = 0; col < sf.getBoard(state)[0].length; col++) {
-    //         if (isMoveValid(state, {x: col, y: row})) {
-    //             validMoves.push({x: col, y: row});
-    //         }
-    //     }
-    // }
-
-    // return validMoves;
 }
 
 function getPositionsToSwap(state, options) {
@@ -77,6 +66,7 @@ function isEnemy(state, options) {
 }
 
 function isMoveValid(state, options) {
+    console.log(options);
     return getPositionsToSwap(state, options).length > 0;
 }
 
@@ -90,6 +80,10 @@ function switchPlayerInTurn(state) {
 }
 
 function move(state, options) {
+    var clonedState = clone(state);
+    clonedState.history = null;
+    state.history.push(clonedState);
+
     getPositionsToSwap(state, options).forEach(function (pos) {
         sf.mark(state, {x: pos.x, y: pos.y, player: sf.getPlayerInTurn(state)});
     });

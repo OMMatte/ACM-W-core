@@ -23,7 +23,8 @@ describe("state", function () {
                         {player: "black"},
                         {player: null}
                     ]
-                ]
+                ],
+                history: []
             });
         });
 

@@ -34,7 +34,7 @@
     "watch:js": "npm run build:js && watchify index.js -o build/index.js -d",
     "watch:test": "karma start",
     "watch:test:lint": "nodemon -q -w src/ --ext \".*\" --exec \"npm run test && npm run lint\"",
-    "watch": "nodemon -q -w src/ --ext \".*\" --exec \"npm run build:css && npm run build:js && npm run build:test && npm run test\""
+    "watch": "nodemon -q -w src/ --ext \".*\" --exec \"npm run build:css && npm run build:js\""
   },
   "babel": {
     "presets": [

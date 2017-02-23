@@ -16,7 +16,8 @@ function createState(options) {
                 }
             })
         }),
-        playerInTurn: options.playerInTurn || "white"
+        playerInTurn: options.playerInTurn || "white",
+        history: options.history === undefined ? [] : options.history
     }
 }
 

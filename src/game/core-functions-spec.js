@@ -68,12 +68,14 @@ describe("core", function () {
         it("test basic move functionality", function () {
             expect(cf.move(sf.createState({board: [".bw"]}), {x: 0, y: 0})).toEqual(sf.createState({
                 playerInTurn: "black",
-                board: ["www"]
+                board: ["www"],
+                history: [sf.createState({board: [".bw"], history: null})]
             }));
 
             expect(cf.move(sf.createState({playerInTurn: "black", board: [".wb"]}), {x: 0, y: 0})).toEqual(sf.createState({
                 playerInTurn: "white",
-                board: ["bbb"]
+                board: ["bbb"],
+                history: [sf.createState({playerInTurn: "black", board: [".wb"], history: null})]
             }));
 
             expect(cf.move(sf.createState({
@@ -90,7 +92,13 @@ describe("core", function () {
                         "w",
                         "w",
                         "w"
-                    ]
+                    ],
+                    history: [sf.createState({playerInTurn: "white",
+                        board: [
+                            "w",
+                            "b",
+                            "."
+                        ], history: null})]
                 }));
         });
 
@@ -110,7 +118,16 @@ describe("core", function () {
                     "w.w.",
                     "ww..",
                     "wbb."
-                ]
+                ], history: [sf.createState(
+                    {
+                        board: [
+                            "w..w",
+                            "b.b.",
+                            "bb..",
+                            ".bb."
+                        ],
+                        history: null
+                    })]
             }));
 
             it("test advanced move, changing pieces in multiple directions", function () {
@@ -129,7 +146,17 @@ describe("core", function () {
                         "w.w.",
                         "ww..",
                         "wbb."
-                    ]
+                    ],
+                    history: [sf.createState(
+                        {
+                            board: [
+                                "b...",
+                                "w.w.",
+                                "bb..",
+                                ".bb."
+                            ],
+                            history: null
+                        })]
                 }));
             });
         });
