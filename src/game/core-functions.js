@@ -70,7 +70,7 @@ function isMoveValid(state, options) {
     return getPositionsToSwap(state, options).length > 0;
 }
 
-function switchPlayerInTurn(state) {
+function    switchPlayerInTurn(state) {
     if (sf.getPlayerInTurn(state) === "white") {
         sf.setPlayerInTurn(state, {playerInTurn: "black"});
     } else {

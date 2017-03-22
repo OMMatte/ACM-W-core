@@ -26,12 +26,8 @@ export default React.createClass({
                 <table>
                     <tbody>{visualGameState.board.map(function (row, rowIndex) {
                         return <tr key={rowIndex}>{row.map(function (position, colIndex) {
-                            var backgroundColor = "green";
-                            if (position.player === "white") {
-                                backgroundColor = "white";
-                            } else if (position.player === "black") {
-                                backgroundColor = "black";
-                            }
+                            console.log(position);
+                            var backgroundColor = clientFunctions.getCellBackgroundColor(visualGameState, {row: rowIndex, col: colIndex});
                             return <td onClick={function () {
                                 if (!game.isMoveValid({x: colIndex, y: rowIndex})) {
                                     console.log("Invalid move! X: ", colIndex, " Y: ", rowIndex);

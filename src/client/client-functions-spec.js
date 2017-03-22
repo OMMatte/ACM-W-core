@@ -1,9 +1,14 @@
-import * as clientFunctions from "./client-functions.js";
+import * as cf from "./client-functions.js";
+import * as sf from "../game/state-functions.js";
 
 describe("client", function () {
-    describe("helloWorld", function () {
-        it("basic test", function () {
-            expect(clientFunctions.helloWorld()).toEqual("Hello World!");
+    describe("getCellBackgroundColor", function () {
+        it("test that getCellBackgroundColor works", function () {
+            var gameState = sf.createState({board: [".bw."]});
+            expect(cf.getCellBackgroundColor(gameState, {row: 0, col: 0})).toEqual("yellow");
+            expect(cf.getCellBackgroundColor(gameState, {row: 0, col: 1})).toEqual("black");
+            expect(cf.getCellBackgroundColor(gameState, {row: 0, col: 2})).toEqual("white");
+            expect(cf.getCellBackgroundColor(gameState, {row: 0, col: 3})).toEqual("green");
         });
     });
 });

@@ -58,6 +58,14 @@ function setPlayerInTurn(state, options) {
     return state;
 }
 
+function isWhiteCell(state, options) {
+    return getPosition(state, options).player === "white";
+}
+
+function isBlackCell(state, options) {
+    return getPosition(state, options).player === "black";
+}
+
 export {
     createState,
     getBoard,
@@ -65,6 +73,8 @@ export {
     getPosition,
     isOccupied,
     isPositionInsideBoard,
+    isBlackCell,
+    isWhiteCell,
     mark,
     setPlayerInTurn
 }
